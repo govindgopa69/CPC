@@ -1,0 +1,48 @@
+#include<iostream>
+using namespace std;
+
+struct p{
+    int max;
+    int min;
+};
+
+struct p getMinMax(int arr[], int arr_size){
+    struct p answer;
+    if (arr_size==1){
+        answer.min=arr[0];
+        answer.max=arr[0];
+        return answer;
+    }
+    if (arr[0]>arr[1]){
+        answer.min=arr[1];
+        answer.max=arr[0];
+    }
+    else{
+        answer.min=arr[0];
+        answer.max=arr[1];
+    }
+    for(int i=2; i<arr_size; i++){
+        if(arr[i]>answer.max){
+            answer.max=arr[i];
+        }
+        else if(arr[i]<answer.min){
+            answer.min=arr[i];
+        }
+    }
+    return answer;
+}
+// Driver code
+int main()
+{
+    int arr[] = { 1000, 11, 445, 1, 330, 3000 };
+    int arr_size = 6;
+     
+    struct p minmax = getMinMax(arr, arr_size);
+     
+    cout << "Minimum element is "
+         << minmax.min << endl;
+    cout << "Maximum element is "
+         << minmax.max;
+          
+    return 0;
+}
