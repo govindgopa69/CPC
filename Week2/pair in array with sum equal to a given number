@@ -1,0 +1,104 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+ // } Driver Code Ends
+//User function template for C++
+class Solution{
+public:	
+	void merge(int arr[], int l, int m, int r)
+{
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    int L[n1], R[n2];
+ 
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    int i = 0;
+
+    int j = 0;
+
+    int k = l;
+ 
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        }
+        else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+ 
+
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+ 
+
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int arr[],int l,int r){
+    if(l>=r){
+        return;//returns recursively
+    }
+    int m =l+ (r-l)/2;
+    mergeSort(arr,l,m);
+    mergeSort(arr,m+1,r);
+    merge(arr,l,m,r);
+}
+	bool hasArrayTwoCandidates(int arr[], int n, int x) {
+	    int l, h;
+        mergeSort(arr, 0, n-1);
+        bool ans = false;
+        l=0;
+        h = n-1;
+        while(l<h){
+            if(arr[l]+arr[h]==x){
+                ans = true;
+                return ans;
+            }
+            else if(arr[l]+arr[h]<x){
+                l++;
+            }
+            else
+                h--;
+        }
+        return ans;
+	}
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, x;
+        cin >> n >> x;
+        int arr[n];
+        for (int i = 0; i < n; i++) {
+            cin >> arr[i];
+        }
+        Solution ob;
+        auto ans = ob.hasArrayTwoCandidates(arr, n, x);
+        cout << (ans ? "Yes\n" : "No\n");
+    }
+    return 0;
+}
+  // } Driver Code Ends
