@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+    int r,i,j;
+    cin>>r;
+    int a[r][r];
+    for(i=0;i<r;i++)
+    {
+        for(j=0;j<r;j++)
+        cin>>a[i][j];
+    }
+    int B[r][r];
+    for (i = 0; i < r; i++)
+        for (j = 0; j < r; j++)
+            B[i][j] = a[j][i];
+    for(i=0;i<r;i++)
+    {
+        printf("\n");
+        for(j=r-1;j>=0;j--)
+        {
+            cout<<B[i][j];
+        }
+    
+    }
+    return 0;
+}
