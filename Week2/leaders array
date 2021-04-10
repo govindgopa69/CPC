@@ -1,0 +1,15 @@
+class Solution{
+    //Function to find the leaders in the array.
+    public:
+    void leaders(int a[], int n){
+        vector<int> ans(n);
+        int j = 0;
+        int max_r = a[n-1];
+        for(int i=n-2; i>=0; i--){
+            if(max_r<=a[i]){
+                max_r=a[i];
+                cout<<max_r<<" ";
+            }
+        }
+    }
+};
