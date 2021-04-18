@@ -1,0 +1,184 @@
+// { Driver Code Starts
+
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+struct Node
+{
+	int data;
+	struct Node* next;
+	
+	Node(int x){
+	    data = x;
+	    next = NULL;
+	}
+	
+};
+
+void append(struct Node** headRef, int newData)
+{
+	struct Node* new_node = new Node(newData);
+	struct Node *last = *headRef;
+	
+	if (*headRef == NULL)
+	{
+	    *headRef = new_node;
+	    return;
+	}
+	while (last->next != NULL)last = last->next;
+	last->next = new_node;
+}
+
+void printList(struct Node *node)
+{
+    while(node!=NULL){
+        printf("%d ", node->data);
+        node = node->next;
+    }
+    cout<<endl;
+} 
+
+void alternatingSplitList(struct Node*); 
+
+struct Node* a;
+struct Node* b;
+
+int main()
+{
+    int test;
+    cin>>test;
+    
+    while(test--)
+    {
+        a=b=NULL;
+        struct Node* head = NULL;
+        
+        
+        int n, k;
+        cin>>n;
+        
+        while(n--)
+        {
+            cin>>k;
+            append(&head, k);
+        }
+        
+        alternatingSplitList(head);
+        printList(a);
+        printList(b);
+    }
+    return 0;
+}
+
+
+
+// } Driver Code Ends
+
+
+/*
+structure of node is as
+struct Node
+{
+	int data;
+	struct Node* next;
+	
+	Node(int x){
+	    data = x;
+	    next = NULL;
+	}
+	
+};
+*/
+
+
+/*
+These are global variables to store heads of split lists
+struct Node* a; //store head of first list
+struct Node* b; //store head of second list
+
+*/
+
+void alternatingSplitList(struct Node* head) 
+{
+    //Your code here
+}
+#include <bits/stdc++.h>
+using namespace std;
+
+/* Link list node */
+class Node
+{
+	public:
+	int data;
+	Node* next;
+};
+void MoveNode(Node** destRef, Node** sourceRef) ;
+void AlternatingSplit(Node* source, Node** aRef, Node** bRef)
+{
+	Node* a = NULL;
+	Node* b = NULL;
+		
+	Node* current = source;
+	while (current != NULL)
+	{
+		MoveNode(&a, ¤t); 
+		if (current != NULL)
+		{
+			MoveNode(&b, ¤t); 
+		}
+	}
+	*aRef = a;
+	*bRef = b;
+}
+void MoveNode(Node** destRef, Node** sourceRef)
+{
+	Node* newNode = *sourceRef;
+	assert(newNode != NULL);
+	*sourceRef = newNode->next;
+	newNode->next = *destRef;
+	*destRef = newNode;
+}
+void push(Node** head_ref, int new_data)
+{
+	Node* new_node = new Node();
+	new_node->data = new_data;
+	new_node->next = (*head_ref);	
+	(*head_ref) = new_node;
+}
+void printList(Node *node)
+{
+	while(node!=NULL)
+	{
+	cout<<node->data<<" ";
+	node = node->next;
+	}
+}
+
+/* Driver code*/
+int main()
+{
+	Node* head = NULL;
+	Node* a = NULL;
+	Node* b = NULL;
+	push(&head, 5);
+	push(&head, 4);
+	push(&head, 3);
+	push(&head, 2);
+	push(&head, 1);								
+	push(&head, 0);
+	
+	cout<<"Original linked List: ";
+	printList(head);
+	AlternatingSplit(head, &a, &b);
+	
+	cout<<"\nResultant Linked List 'a' : ";
+	printList(a);		
+	
+	cout<<"\nResultant Linked List 'b' : ";
+	printList(b);		
+	
+	return 0;
+}
+
+
