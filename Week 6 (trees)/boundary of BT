@@ -1,0 +1,47 @@
+class Solution {
+public:
+    void printleaves(Node* root){
+        if(root==NULL){
+            return;
+        }
+        printleaves(root->left);
+        if(!root->left&&root->right){
+            cout<<root->data;
+        }
+        printleaves(root->right);
+    }
+    void printbdryleft(Node* root){
+        if(root==NULL){
+            return;
+        }
+        if(root->left){
+            cout<<root->data;
+            printbdryleft(root->left);
+        }
+        else if(root->right){
+            cout<<root->data;
+            printbdryleft(root->right);
+        }
+    }
+    void printbdryright(Node* root){
+        if(root==NULL){
+            return;
+        }
+        if(root->right){
+            cout<<root->data;
+            printbdryright(root->right);
+        }
+        else if(root->left{
+            cout<<root->data;
+            printbdryright(root->left);
+        }
+    }
+    void printbdry(Node* root){
+        if (root==NULL){
+            return;
+        }
+        printbdryleft(root->left);
+        printleaves(root->left);
+        printleaves(root->right);
+        printbdryright(root->right);
+    }
