@@ -1,0 +1,11 @@
+void addBST(Node* node, int* sum){
+     addBST(node->right, sum);
+     *sum+=node->data;
+     node->data=*sum;
+     addBST(node->left, sum);
+}
+void modifyBST(Node* root)
+{
+    int sum = 0;
+    modifyBSTUtil(root, &sum);
+}
