@@ -1,0 +1,42 @@
+node* bintree2listUtil(node* root, node** head, node** tail)
+{
+    if (root == NULL)
+        return NULL;
+ 
+    node* left = root->left;
+    node* right = root->right;
+ 
+    bintree2listUtil(root->left, head, tail);
+ 
+    if (*head == NULL) {
+        *head = root;
+    }
+ 
+    root->left = *tail;
+ 
+    if (*tail != NULL) {
+        (*tail)->right = root;
+    }
+ 
+    *tail = root;
+ 
+    bintree2listUtil(root->right, head, tail);
+ 
+    return root;
+}
+ 
+// The main function that first calls
+// bintree2listUtil()
+node* bintree2list(node* root)
+{
+    // Base case
+    if (root == NULL)
+        return root;
+ 
+    node* head = NULL;
+    node* tail = NULL;
+ 
+    bintree2listUtil(root, &head, &tail);
+ 
+    return head;
+}
