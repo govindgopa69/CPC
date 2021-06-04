@@ -1,0 +1,55 @@
+void storeInorder(node* node, int inorder[], int *index_ptr)
+{
+    if (node == NULL)
+        return;
+ 
+    /* first recur on left child */
+    storeInorder(node->left, inorder, index_ptr);
+ 
+    inorder[*index_ptr] = node->data;
+    (*index_ptr)++; // increase index for next entry
+ 
+    /* now recur on right child */
+    storeInorder(node->right, inorder, index_ptr);
+}
+node* sortedArrayToBST(int arr[], int start, int end)
+{
+    /* Base Case */
+    if (start > end)
+    return NULL;
+ 
+    /* Get the middle element and make it root */
+    int mid = (start + end)/2;
+    node *root = newNode(arr[mid]);
+ 
+    /* Recursively construct the left subtree and make it
+    left child of root */
+    root->left = sortedArrayToBST(arr, start, mid-1);
+ 
+    /* Recursively construct the right subtree and make it
+    right child of root */
+    root->right = sortedArrayToBST(arr, mid+1, end);
+ 
+    return root;
+}
+node* mergeTrees(node *root1, node *root2, int m, int n)
+{
+    // Store inorder traversal of
+    // first tree in an array arr1[]
+    int *arr1 = new int[m];
+    int i = 0;
+    storeInorder(root1, arr1, &i);
+ 
+    // Store inorder traversal of second
+    // tree in another array arr2[]
+    int *arr2 = new int[n];
+    int j = 0;
+    storeInorder(root2, arr2, &j);
+ 
+    // Merge the two sorted array into one
+    int *mergedArr = merge(arr1, arr2, m, n);
+ 
+    // Construct a tree from the merged
+    // array and return root of the tree
+    return sortedArrayToBST (mergedArr, 0, m + n - 1);
+}
