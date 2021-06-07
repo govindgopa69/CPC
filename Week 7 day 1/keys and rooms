@@ -1,22 +1,22 @@
-    void dfs(vector<vector<int>>& g,int x)
+    void dfs(vector<vector<int>>& rooms, int src, vector<bool> &visited)
     {
-        g[x][x]=0;
-        for(int i=0;i<g[x].size();i++)
-        {
-            if(g[x][i] && g[i][i])
-                dfs(g,i);
+        visited[src] = true;
+        
+        for(auto v : rooms[src]) {
+            if(!visited[v])
+                dfs(rooms, v, visited);
         }
-        return;
     }
-    int findCircleNum(vector<vector<int>>& g){
-        int c=0;
-        for(int i=0;i<g.size();i++)
-        {
-            if(g[i][i])
-            {
-                c++;
-                dfs(g,i);
-            }
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        
+        int V = rooms.size();
+        vector<bool>visited(V, false);
+        
+        dfs(rooms, 0 ,visited);
+        
+        for(auto check : visited) {   // checking for unvisited node after dfs call 
+            if(check == false)
+                return false;
         }
-        return c;
+        return true;
     }
