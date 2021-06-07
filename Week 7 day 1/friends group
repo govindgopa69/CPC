@@ -1,0 +1,18 @@
+void dfs(vector<vector<int>>& friends, int& i, vector<bool>& vis, bool& check) {
+    if (vis[i]) return;
+    vis[i] = true;
+    check = true;
+    for (int j = 0; j < friends[i].size(); j++) {
+        dfs(friends, friends[i][j], vis, check);
+    }
+}
+int solve(vector<vector<int>>& friends) {
+    vector<bool> vis(friends.size());
+    int ans = 0;
+    for (int i = 0; i < friends.size(); i++) {
+        bool check = false;
+        dfs(friends, i, vis, check);
+        ans += check;
+    }
+    return ans;
+}
