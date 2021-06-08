@@ -1,0 +1,40 @@
+class Solution {
+public:
+    bool isClosed(int i, int j,vector<vector<int>>& grid ){
+        if(i<0 || i>=grid.size() || j<0 || j>=grid[0].size()){
+            return false;
+        }
+
+        if(grid[i][j] == -1 || grid[i][j] == 1){
+            return true;
+        }
+    
+    /* DFS will not run on all the connected cells if we try to return isClosed(i-1,j,grid) && isClosed(i+1,j,grid) && isClosed(i,j-1,grid) && isClosed(i,j+1,grid) as all the functions may not be called depending upon if we get a false at the beginning itself.running all the dfs functions are necessary so that an island is not visited again.*/
+    
+        grid[i][j] = -1;
+        bool ans1,ans2,ans3,ans4;
+        ans1 = ans2 = ans3 = ans4 = false;
+        ans1 = isClosed(i-1,j,grid);
+        ans2 = isClosed(i+1,j,grid); 
+        ans3 = isClosed(i,j-1,grid);
+        ans4 = isClosed(i,j+1,grid);
+        return ans1 && ans2 && ans3 && ans4;
+    }
+    
+    
+    int closedIsland(vector<vector<int>>& grid) {
+        int r = grid.size();
+        int c = grid[0].size();
+        int closed = 0;
+
+        for(int i = 0; i<r; i++){
+            for(int j = 0; j<c; j++){
+                if(grid[i][j] == 0){
+                    closed = isClosed(i,j,grid)? closed + 1 : closed;
+                }
+            }
+        }
+
+        return closed;
+    }
+};
