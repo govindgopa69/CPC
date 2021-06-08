@@ -1,0 +1,33 @@
+class Solution {
+public:
+    void dfs(int i, int j, int row, int col, vector<vector<char>>& grid){
+        
+        // base cases - for checking boundary of dfs movement
+        if(i<0 or j<0 or i>=row or j>=col or grid[i][j]!='1') return;
+        
+        // making sure that it doesn't get visited again without using extra visited array
+        grid[i][j]='2';
+        
+        // traversing in all possible directions
+        dfs(i+1,j,row,col,grid);
+        dfs(i-1,j,row,col,grid);
+        dfs(i,j+1,row,col,grid);
+        dfs(i,j-1,row,col,grid);
+    }
+    
+    int numIslands(vector<vector<char>>& grid) {
+        int cnt=0;
+        int row=grid.size(), col=grid[0].size();
+        
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
+                if(grid[i][j]=='1'){
+// this function will be called only once for each connected components, so we get our answer
+                    dfs(i,j,row,col,grid);
+                    cnt++;
+                }
+            }
+        }
+        return cnt;
+    }
+};
