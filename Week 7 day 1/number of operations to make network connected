@@ -1,0 +1,28 @@
+    void dfs(int v, vector<int> adj[], vector<int>& vis){
+        vis[v] = 1;
+        for(int child : adj[v])
+        {
+            if(vis[child]==0) dfs(child, adj, vis);
+        }
+    }
+    int makeConnected(int n, vector<vector<int>>& graph) {
+        if(graph.size()<n-1) return -1;
+        vector<int> adj[n];
+        for(vector<int> vec : graph)
+        {
+            int u = vec[0], v = vec[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        vector<int> vis(n, 0);
+        int cc = 0;
+        for(int i=0;i<n;i++)
+        {
+            if(vis[i]==0) 
+            {
+                cc++;
+                dfs(i,adj,vis);
+            }
+        }
+        return cc-1;
+    }
