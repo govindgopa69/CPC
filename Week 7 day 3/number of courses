@@ -1,0 +1,49 @@
+class Solution {
+private:    
+    bool isCyclic(int node, vector<vector<int>>& graph, vector<int>& visited) {
+        
+        // if we come across node marked as processing that means a cycle has formed
+        if (visited[node] == 1) return true;
+        
+        // mark node as processing
+        visited[node] = 1;
+        
+		// dfs traversal 
+        for (int i: graph[node]){
+            if (visited[i] != 2)
+                if (isCyclic(i, graph, visited)) return true;
+        }
+        
+        // mark the node as processed
+        visited[node] = 2;
+        
+        return false;
+    }   
+    
+public:    
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) { 
+	
+		// mark all nodes as unvisited at first
+        vector<int> visited(numCourses, 0);
+		
+		// constructing the graph
+		vector<vector<int>> graph(numCourses);
+		
+        for (int i = 0; i < prerequisites.size(); i++) {
+            int u = prerequisites[i][0];
+            int v = prerequisites[i][1];
+            graph[u].push_back(v);
+        }
+        
+        for (int i = 0; i < numCourses; i++) {
+            // if the course hasn't been processed
+            if (visited[i] != 2) {
+				// if there is a cycle then you can't finish the courses so return false
+                if (isCyclic(i, graph, visited)) return false;
+            }
+        }
+		
+        // since we didn't find any cycle we can return true
+        return true;
+    }
+};
