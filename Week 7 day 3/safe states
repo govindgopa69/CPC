@@ -1,0 +1,36 @@
+class Solution {
+public:
+    #define BLACK 2
+    #define GRAY 1
+    #define WHITE 0
+    bool dfs(vector<vector<int>>& graph, int s, vector<int> &color) {
+
+        color[s] = GRAY;
+        for (int i = 0; i < graph[s].size(); i++) {
+            int candidate = graph[s][i];
+            if (color[candidate] == WHITE) {
+
+                if (dfs(graph, candidate, color) == true) {
+                    return true;
+                }
+            }
+            else if (color[candidate] == GRAY) {
+                return true;
+            }
+        }
+            color[s] = BLACK;
+            return false;
+    }
+
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+
+        int n = graph.size();
+        vector<int> color(n, WHITE);
+        vector<int> ans;
+        for (int i = 0; i < n; i++) {
+            if (dfs(graph, i, color)== false)
+                ans.push_back(i);
+        }
+        return ans;
+    }
+};
