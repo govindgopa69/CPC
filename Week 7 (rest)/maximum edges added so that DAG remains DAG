@@ -1,0 +1,65 @@
+vector<int> Graph::topologicalSort()
+{
+    vector<int> topological;
+    queue<int> q;
+ 
+    //  In starting push all node with indegree 0
+    for (int i = 0; i < V; i++)
+        if (indegree[i] == 0)
+            q.push(i);
+ 
+ 
+    while (!q.empty())
+    {
+        int t = q.front();
+        q.pop();
+ 
+        //  push the node into topological vector
+        topological.push_back(t);
+ 
+        //  reducing indegree of adjacent vertices
+        for (list<int>:: iterator j = adj[t].begin();
+                               j != adj[t].end(); j++)
+        {
+            indegree[*j]--;
+ 
+            //  if indegree becomes 0, just push
+            // into queue
+            if (indegree[*j] == 0)
+                q.push(*j);
+ 
+        }
+    }
+    return topological;
+}
+ 
+//  The function prints all edges that can be
+//  added without making any cycle
+//  It uses recursive topologicalSort()
+void Graph::maximumEdgeAddtion()
+{
+    bool *visited = new bool[V];
+    vector<int> topo = topologicalSort();
+ 
+    //  looping for all nodes
+    for (int i = 0; i < topo.size(); i++)
+    {
+        int t = topo[i];
+ 
+        //  In below loop we mark the adjacent node of t
+        for (list<int>::iterator j = adj[t].begin();
+                                 j != adj[t].end(); j++)
+            visited[*j] = true;
+ 
+        //  In below loop unmarked nodes are printed
+        for (int j = i + 1; j < topo.size(); j++)
+        {
+            // if not marked, then we can make an edge
+            // between t and j
+            if (!visited[topo[j]])
+                cout << t << "-" << topo[j] << " ";
+ 
+            visited[topo[j]] = false;
+        }
+    }
+}
