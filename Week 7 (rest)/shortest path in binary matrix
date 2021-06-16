@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<vector<int>> dir {{-1, 0}, {1, 0}, {0, 1}, {0, -1}, {1, 1}, {-1, -1}, {1, -1}, {-1, 1}};
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        if(grid.empty()) return -1;
+        int r = grid.size(), i, j;
+        if(grid[0][0] == 1 || grid[r - 1][r - 1] == 1) return -1;
+        vector<vector<int>> dp(r, vector<int>(r, INT_MAX));
+        queue<pair<int, int>> q;
+        q.push(make_pair(0, 0));
+        dp[0][0] = 1;
+        
+        while(!q.empty()) {
+            pair<int, int> p = q.front();
+            q.pop();
+            for(int n = 0; n < dir.size(); n++) {
+                i = p.first + dir[n][0]; j = p.second + dir[n][1];
+                if(i < 0 || j < 0 || i >= r || j >= r || grid[i][j] == 1) continue;
+                if(dp[i][j] <= dp[p.first][p.second] + 1) continue;
+                q.push(make_pair(i, j));
+                dp[i][j] = dp[p.first][p.second] + 1;
+            }
+        }
+        
+        if(dp[r - 1][r - 1] == INT_MAX) return -1;
+        return dp[r - 1][r - 1];
+    }
+};
