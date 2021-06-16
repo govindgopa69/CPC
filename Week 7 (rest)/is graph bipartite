@@ -1,0 +1,35 @@
+class Solution {
+public:
+    //we try to color all adjacent vertices with different color .. if there is a level edge/odd cycle then its not possible.  
+    bool isBipartite(vector<vector<int>>& graph) {
+        vector<bool>visited(graph.size(),false);
+        vector<int>colors(graph.size(),-1);
+        queue<int>q;
+        for(int i=0;i<graph.size();i++){
+            if(visited[i]==false){
+                q.push(i);
+                colors[i]=1;
+                visited[i]=true;
+            }
+            while(!q.empty()){
+                int s=q.front();
+                q.pop();
+                
+                for(auto n:graph[s]){
+                    if(visited[n]==false && colors[n]==-1){
+                        colors[n]=1-colors[s];
+                        cout<<n<<colors[n]<<endl;
+                        visited[n]=true;
+                        q.push(n);
+                    }
+                    if(visited[n] && colors[n]==colors[s]){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+        
+       
+    }
+};
