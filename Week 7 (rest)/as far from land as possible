@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& grid) {
+        int c=grid[0].size(); //columns
+        int r=grid.size();//rows
+        queue<pair<int,int>>q;
+        for(int i=0;i<grid.size();i++){
+            for(int j=0;j<grid[0].size();j++){
+                if(grid[i][j]==1){ //if land
+                      q.push(make_pair(i,j));
+                }
+            }
+        }
+        int maxm=0;   
+        vector<vector<int>>dir={{1,0},{0,1},{0,-1},{-1,0}}; //up,down,right,left
+        while(!q.empty()){
+            auto curr=q.front();
+            q.pop();
+            int x=curr.first;
+            int y=curr.second;
+            for(auto t:dir)
+            {
+                int q1 = x + t[0];
+                int q2 = y + t[1];
+                
+                if(q1>=0 and q1<r and q2>=0 and q2<c and grid[q1][q2]==0){
+                      q.push(make_pair(q1,q2));
+                    grid[q1][q2]=grid[x][y]+1;
+                    maxm=max(maxm,grid[q1][q2]);
+                } 
+            }
+        }
+        return maxm>0?maxm-1:-1;
+    }
+};
