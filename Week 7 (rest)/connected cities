@@ -1,0 +1,52 @@
+void dfs2(vector<int>* graphT, int start, bool* visited) {
+    visited[start] = true;
+    for (int i : graphT[start]) {
+        if (!visited[i]) {
+            dfs2(graphT, i, visited);
+        }
+    }
+}
+void dfs1(vector<int>* graph, int start, bool* visited, stack<int>& s) {
+    visited[start] = true;
+    for (int i : graph[start]) {
+        if (!visited[i]) {
+            dfs1(graph, i, visited, s);
+        }
+    }
+    s.push(start);
+}
+
+bool solve(int n, vector<vector<int>>& roads) {
+    if (n == 0) {
+        return false;
+    }
+    vector<int>* graph = new vector<int>[n];
+    vector<int>* graphT = new vector<int>[n];
+    for (vector<int> v : roads) {
+        graph[v[0]].push_back(v[1]);
+        graphT[v[1]].push_back(v[0]);
+    }
+    stack<int> s;
+    bool* visited = new bool[n]();
+    for (int i = 0; i < n; i++) {
+        if (!visited[i]) {
+            dfs1(graph, i, visited, s);
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        visited[i] = false;
+    }
+
+    int c = 0;
+    while (s.size() != 0) {
+        int start = s.top();
+        s.pop();
+        if (!visited[start]) {
+            c++;
+            dfs2(graphT, start, visited);
+        }
+    }
+
+    return c == 1;
+}
