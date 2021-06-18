@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int MAX = 1e9;
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<int> dist(n+1,MAX);
+        dist[k] = 0;
+        for(int i=0; i<n-1; i++){
+            vector<int> temp = dist;
+            for(int j=0; j<times.size(); j++){
+                int from = times[j][0];
+                int to = times[j][1];
+                int wt = times[j][2];
+                if(temp[to] > dist[from] + wt) temp[to] = dist[from] + wt;
+                dist = temp;
+            }
+        }
+        int res = *max_element(dist.begin()+1,dist.end());
+        if(res>=MAX) return -1;
+        return res;
+    }
+};
