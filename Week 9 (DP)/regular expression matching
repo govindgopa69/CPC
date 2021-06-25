@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+          int n=p.size();
+          int m=s.size();
+          s="0"+s;
+          p="0"+p;
+
+          int dp[n+1][m+1];
+          memset(dp,0,sizeof(dp));
+          dp[0][0]=1;
+
+          for(int i=1;i<=n;i++){
+              for(int j=0;j<=m;j++){
+                  if(p[i]==s[j]||p[i]=='.'){
+                      if(j>0)    dp[i][j]|=dp[i-1][j-1];
+                  }else if(p[i]=='*'){
+                      dp[i][j]|=dp[i-2][j];   //use 0 times
+                      dp[i][j]|=dp[i-1][j];   //use 1 times
+                      if(s[j]==p[i-1]||p[i-1]=='.')   if(j>0)    dp[i][j]|=dp[i][j-1];    //use                         multiple times
+                  }
+              }
+          }
+
+          return dp[n][m];
+    }
+};
